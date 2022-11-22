@@ -1,5 +1,6 @@
-import { fetchProductsList } from './helpers/fetchFunctions';
-import { createProductElement } from './helpers/shopFunctions';
+import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
+import { saveCartID } from './helpers/cartFunctions';
 import './style.css';
 
 // const produtos = await fetchProductsList('computador'); // chamei lá embaixo
@@ -32,6 +33,16 @@ const showProdutcts = async () => {
     listagem.innerHTML = ''; // chamei o texto
     erroAPI(); // chamei a tela de erro
   }
+
+  const botaum = document.querySelectorAll('.product__add'); // chamando linha 121
+  const carrinho = document.querySelector('.cart__products'); // porque dois __? :( linha 30
+
+  botaum.forEach((item) => item.addEventListener('click', async (index) => { // evento de click
+    const i = index.target.parentElement.children[0].innerText; // parametro que dá endereço e localização em hirarquia de seus elementos
+    saveCartID(i); // importada
+    const product = await fetchProduct(i); // chamando assincronicamente a função
+    carrinho.appendChild(createCartProductElement(product)); // colocando como filho
+  }));
 };
 showProdutcts(); // chamei a função pra ela executar
 
