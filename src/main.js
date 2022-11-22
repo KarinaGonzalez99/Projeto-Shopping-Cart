@@ -49,7 +49,7 @@ const showProdutcts = async () => {
 showProdutcts(); // chamei a função pra ela executar
 
 const funcoesStorage = async () => { // chamei função pra salvar o local storage
-  const itensCarrinho = storage.sort((param2) => fetchProduct(param2)); // substitui o array interno
+  const itensCarrinho = storage.map((parama) => fetchProduct(parama)); // substitui o array interno
   const itensSalvos = await Promise.all(itensCarrinho); // esperando resolver todas as promises pra essa rodar e salvar dps
   itensSalvos.forEach((i) => carrinhoo.appendChild(createCartProductElement(i))); // para cada item
 };
