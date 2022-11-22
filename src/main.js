@@ -1,10 +1,12 @@
 import { fetchProductsList, fetchProduct } from './helpers/fetchFunctions';
 import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
-import { saveCartID } from './helpers/cartFunctions';
+import { saveCartID, getSavedCartIDs } from './helpers/cartFunctions';
 import './style.css';
 
 // const produtos = await fetchProductsList('computador'); // chamei lá embaixo
 const listagem = document.querySelector('.products'); // não consegui chamar por getElementsByClassName
+const carrinhoo = document.querySelector('.cart__products'); // chamei denovo por conta que o dentro do try não puxa
+const storage = getSavedCartIDs();
 
 const loadingPagina = () => { // carregamento da tela
   const wait = document.createElement('p'); // criado elemento paragrafo
@@ -46,6 +48,12 @@ const showProdutcts = async () => {
 };
 showProdutcts(); // chamei a função pra ela executar
 
+const funcoesStorage = async () => { // chamei função pra salvar o local storage
+  const itensCarrinho = storage.sort((param2) => fetchProduct(param2)); // substitui o array interno
+  const itensSalvos = await Promise.all(itensCarrinho); // esperando resolver todas as promises pra essa rodar e salvar dps
+  itensSalvos.forEach((i) => carrinhoo.appendChild(createCartProductElement(i))); // para cada item
+};
+funcoesStorage();
 /* let itens; // variável indefinida
 const products = () => {
   produtos.forEach((produto) => { // para cada parametro da função fetch vai ser analisado e percorrido os itens sendo assim colocados dentro do section
